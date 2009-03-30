@@ -1,0 +1,8 @@
+<div class="title_container">
+  <div class="page_title">[% title %]</div>
+  [% UNLESS no_source_view %]
+    <div class="pdf_link"><a href="[% c.uri_for('/source',path.join('/')) %]">View source</a></div>
+  [% END %]
+</div>
+
+[% pod2html %]
