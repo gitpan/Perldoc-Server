@@ -22,7 +22,7 @@ use Catalyst qw/-Debug
                 Session::State::Cookie
                 Session::Store::File
                 Static::Simple/;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 # Configure the application.
 #

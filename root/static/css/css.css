@@ -459,12 +459,21 @@ div.label {
   margin-right: auto;
   font-size: 75%;
   word-wrap: break-word;
-  overflow: auto;
+}
+
+div.label pre {
+ white-space: pre-wrap; /* css-3 */
+ white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+ white-space: -pre-wrap; /* Opera 4-6 */
+ white-space: -o-pre-wrap; /* Opera 7 */
+ /* width: 99%; */
+ word-wrap: break-word; /* Internet Explorer 5.5+ */ 
 }
 
 div.labels {
   margin-left: 0px;
   margin-right: 0px;
+  padding-left: 5px;
 }
 
 #labels a:link {
@@ -521,12 +530,14 @@ code.inline {
 
 pre.verbatim {
   margin-left: 10px;
+  margin-right: 10px;
   background: #eeeedd;
   border-width: 1px;
   border-style: solid solid solid solid;
   border-color: #ccc;
-  width: 90%;
   padding: 10px 10px 10px 10px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 pre.indent {
@@ -552,20 +563,20 @@ div.verbatim {
 	margin-top: 10px;
 }
 
-div.verbatim ol {
+pre.verbatim ol {
 	background-color: #d8d8d8;
 	color: #3f3f3f;
 	margin-top: 0;
 	margin-bottom: 0;
 }
 
-div.verbatim ol li {
+pre.verbatim ol li {
   background: #eeeedd;
 	padding-left: 5px;
 	color: black;
 }
 
-div.verbatim_highlighted {
+pre.verbatim_highlighted {
   margin-left: 10px;
   background: #eeeedd;
   border-width: 1px;
@@ -573,20 +584,22 @@ div.verbatim_highlighted {
   border-color: #ccc;
   padding: 10px 10px 10px 10px;
   margin-right: 10px;
-  font: .8em Courier;
-   white-space: pre-wrap; 
-	margin-top: 10px;
+  font: .8em "Courier New", Courier, mono;
+  white-space: pre-wrap; 
+  margin-top: 10px;
+  word-wrap: break-word;
 }
 
-div.verbatim_highlighted ol {
+pre.verbatim_highlighted ol {
 	background-color: #d8d8d8;
 	color: #3f3f3f;
 	margin-top: 0;
 	margin-bottom: 0;
 }
 
-div.verbatim_highlighted ol li {
+pre.verbatim_highlighted ol li {
   background: #eeeedd;
-	padding-left: 5px;
-	color: black;
+  padding-left: 5px;
+  color: black;
+  white-space: pre;
 }

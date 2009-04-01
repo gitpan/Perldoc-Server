@@ -18,6 +18,7 @@ requires 'Pod::POM' => '0.23';
 requires 'Catalyst::View::TT';
 requires 'File::Slurp';
 requires 'File::Monitor';
+requires 'HTML::Entities';
 
 catalyst;
 

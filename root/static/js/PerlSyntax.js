@@ -21,7 +21,7 @@ PerlSyntax.version = '0.01';
 //--Configuration----------------------------------------------------------
 
 PerlSyntax.elementId    = 1;
-PerlSyntax.elementType  = 'div';
+PerlSyntax.elementType  = 'pre';
 PerlSyntax.className    = 'verbatim';
 PerlSyntax.highlightUrl = '/ajax/perlsyntax';
 

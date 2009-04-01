@@ -5,4 +5,4 @@
 
 <h3>[% filename %]</h3>
 
-<div class="verbatim_highlighted">[% pod %]</div>
+<pre class="verbatim_highlighted">[% pod %]</pre>

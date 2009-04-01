@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use parent 'Catalyst::Controller';
 
+use HTML::Entities;
 use OpenThought;
 use Perl::Tidy;
 
@@ -35,9 +36,7 @@ sub index :Path :Args(0) {
 #test
 #EOT
 
-  $code =~ s/&gt;/>/g;
-  $code =~ s/&lt;/</g;
-  $code =~ s/&amp;/&/g;
+  $code = decode_entities($code);
 
   my ($result,$error);
   perltidy(
@@ -52,8 +51,10 @@ sub index :Path :Args(0) {
   $result =~ s!<span class="w">(.*?)</span>!($c->model('Pod')->find($1))?'<a class="l_w" href="/view/'.linkpath($1).qq(">$1</a>):$1!sge;
 
   my $output = '<ol>';
-  open my $fh,'<',\$result;
-  while (<$fh>) {$output .= "<li>$_</li>"}
+  #open my $fh,'<',\$result;
+  #while (<$fh>) {$output .= "<li>$_</li>"}
+  my @lines = split(/\r\n|\n/,$result);
+  foreach (@lines) {$output .= "<li>$_</li>"}
   $output .= '</ol>';
 
   push @{$c->stash->{openthought}}, {$id => $output};

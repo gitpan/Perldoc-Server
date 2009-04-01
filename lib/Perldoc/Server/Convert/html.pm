@@ -4,6 +4,7 @@ use strict;
 use warnings;
 #use Perldoc::Function;
 #use Perldoc::Syntax;
+use HTML::Entities;
 use Pod::Escapes qw/e2char/;
 use Pod::ParseLink;
 use Pod::POM 0.23;
@@ -176,12 +177,8 @@ sub view_item {
 
 sub view_verbatim {
   my ($self,$text) = @_;
-  $text =~ s/&/&amp;/sg;
-  $text =~ s/</&lt;/sg;
-  $text =~ s/>/&gt;/sg;
-  return qq{<div class="verbatim">$text</div>};
-  #my $linkpath = '../' x (0 + $document_name =~ s/::/::/g);
-  #return Perldoc::Syntax::highlight('<pre class="verbatim">','</pre>',$text,$linkpath);
+  $text = encode_entities($text);
+  return qq{<pre class="verbatim">$text</pre>};
 }
 
 
@@ -190,17 +187,7 @@ sub view_verbatim {
 sub view_seq_code {
   my ($self,$text) = @_;
   
-  #$text =~ s/&/&amp;/sg;
-  #$text =~ s/</&lt;/sg;
-  #$text =~ s/>/&gt;/sg;
   return qq{<code class="inline">$text</code>};
-  
-  #$text =~ s/&gt;/>/sg;
-  #$text =~ s/&lt;/</sg;
-  #$text =~ s/&amp;/&/sg;
-
-  #my $linkpath = '../' x (0 + $document_name =~ s/::/::/g);
-  #return Perldoc::Syntax::highlight('<code class="inline">','</code>',$text,$linkpath);
 }
 
 
@@ -335,9 +322,7 @@ sub view_seq_entity {
   my ($self, $entity) = @_;
   my $text = e2char($entity);
   #warn("$text found in E<$entity> sequence at $document_name\n");
-  $text =~ s/&/&amp;/g;
-  $text =~ s/</&lt;/g;
-  $text =~ s/>/&gt;/g;
+  $text = encode_entities($text);
   return $text;
 }
 
@@ -358,6 +343,52 @@ sub view_seq_space {
     return $text;
 }
 
+my $urls = '(' . join ('|',
+     qw{
+       http
+       telnet
+       mailto
+       news
+       gopher
+       file
+       wais
+       ftp
+     } ) . ')';	
+my $ltrs = '\w';
+my $gunk = '/#~:.?+=&%@!\-';
+my $punc = '.:!?\-;';
+my $any  = "${ltrs}${gunk}${punc}";
+
+sub view_seq_text {
+     my ($self, $text) = @_;
+
+     unless ($Pod::POM::View::HTML::HTML_PROTECT) {
+        $text = encode_entities($text);
+     }
+
+     $text =~ s{
+        \b                           # start at word boundary
+         (                           # begin $1  {
+           $urls     :               # need resource and a colon
+	  (?!:)                     # Ignore File::, among others.
+           [$any] +?                 # followed by one or more of any valid
+                                     #   character, but be conservative and
+                                     #   take only what you need to....
+         )                           # end   $1  }
+         (?=                         # look-ahead non-consumptive assertion
+                 [$punc]*            # either 0 or more punctuation followed
+                 (?:                 #   followed
+                     [^$any]         #   by a non-url char
+                     |               #   or
+                     $               #   end of the string
+                 )                   #
+             |                       # or else
+                 $                   #   then end of the string
+         )
+       }{<a href="$1">$1</a>}igox;
+
+     return $text;
+}
 
 #--------------------------------------------------------------------------
 

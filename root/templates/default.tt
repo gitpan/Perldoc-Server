@@ -82,7 +82,7 @@
           [% FOREACH page IN most_viewed %]
             [% IF page.link %]
               <div class="label">
-              <a href="[% page.link %]">[% page.name %]</a>
+                <a href="[% page.link %]">[% page.name.replace('::','::<wbr>') %]</a>
               </div>
             [% END %]
           [% END %]
