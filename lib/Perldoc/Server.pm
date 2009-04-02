@@ -16,13 +16,13 @@ use Sys::Hostname;
 #                 directory
 
 use parent qw/Catalyst/;
-use Catalyst qw/-Debug
+use Catalyst qw/
                 ConfigLoader
                 Session
                 Session::State::Cookie
                 Session::Store::File
                 Static::Simple/;
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 # Configure the application.
 #

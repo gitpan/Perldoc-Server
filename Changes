@@ -1,5 +1,10 @@
 This file documents the revision history for Perl extension Perldoc::Server.
 
+0.03  2009-04-02 11:48:00
+        - Added missing pre-requisites to Makefile.PL
+        
+        - Fixed failing tests
+
 0.02  2009-04-01 09:37:00
         - Unicode characters in Pod are now rendered properly.
           Thanks to Andreas and Barbie for their help in fixing this!
