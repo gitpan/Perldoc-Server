@@ -5,7 +5,7 @@
 <h2>Search path:</h2>
 <p>
   <ul>
-    [% FOREACH directory IN c.config.search_path %]
+    [% FOREACH directory IN search_path %]
       <li>[% directory %]
     [% END %]
   </ul>

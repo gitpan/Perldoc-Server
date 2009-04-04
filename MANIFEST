@@ -9,6 +9,7 @@ inc/Module/Install/Fetch.pm
 inc/Module/Install/Include.pm
 inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
+inc/Module/Install/Share.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 lib/Perldoc/Server.pm
@@ -62,6 +63,7 @@ root/templates/pod2html.tt
 root/templates/pod2source.tt
 root/templates/search_results.tt
 root/templates/section_index.tt
+script/perldoc-server
 script/perldoc_server_cgi.pl
 script/perldoc_server_create.pl
 script/perldoc_server_fastcgi.pl

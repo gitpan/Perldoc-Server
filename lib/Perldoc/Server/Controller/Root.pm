@@ -34,6 +34,7 @@ sub index :Path :Args(0) {
     $c->stash->{title}         = 'Perldoc::Server';
     $c->stash->{page_name}     = 'About this site';
     $c->stash->{page_template} = 'homepage.tt';
+    $c->stash->{search_path}   = [grep {/\w/} @{$c->config->{search_path}}];
 }
 
 sub default :Path {

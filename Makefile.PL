@@ -19,12 +19,15 @@ requires 'Perl::Tidy';
 requires 'OpenThought';
 requires 'Pod::POM' => '0.23';
 requires 'Catalyst::View::TT';
+requires 'File::ShareDir';
 requires 'File::Slurp';
 requires 'File::Monitor';
 requires 'HTML::Entities';
 
 catalyst;
 
+install_share 'root';
 install_script glob('script/*.pl');
+install_script 'script/perldoc-server';
 auto_install;
 WriteAll;

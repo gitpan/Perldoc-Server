@@ -2,6 +2,8 @@
 abstract: 'local Perl documentation server'
 author:
   - 'Jon Allen (JJ) <jj@jonallen.info>'
+build_requires:
+  ExtUtils::MakeMaker: 6.11
 distribution_type: module
 generated_by: 'Module::Install version 0.76'
 license: perl
@@ -11,6 +13,7 @@ meta-spec:
 name: Perldoc-Server
 no_index:
   directory:
+    - root
     - inc
     - t
 requires:
@@ -24,6 +27,7 @@ requires:
   Catalyst::View::TT: 0
   Config::General: 0
   File::Monitor: 0
+  File::ShareDir: 0
   File::Slurp: 0
   HTML::Entities: 0
   OpenThought: 0
@@ -33,4 +37,4 @@ requires:
   perl: 5.01
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.03
+version: 0.04

@@ -38,7 +38,7 @@ sub index :Path {
     given ($page) {
         when ($c->model('Pod')->section($_)) {
             my $section = $c->model('Pod')->section($_);
-            $c->log->debug("Found $page in section $section");
+            #$c->log->debug("Found $page in section $section");
             $c->stash->{breadcrumbs} = [
                 { url => $c->uri_for('/index',$section), name => $c->model('Section')->name($section) },                
             ];

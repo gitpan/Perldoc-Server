@@ -22,7 +22,7 @@ use Catalyst qw/
                 Session::State::Cookie
                 Session::Store::File
                 Static::Simple/;
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 # Configure the application.
 #
@@ -63,7 +63,12 @@ Perldoc::Server - local Perl documentation server
 
 =head1 SYNOPSIS
 
-    script/perldoc_server_server.pl
+ perldoc-server [options]
+ 
+ Options:
+ --perl /path/to/perl   Show documentation for this Perl installation
+ --port 1234            Set server port number
+ --help                 Display help
 
 =head1 DESCRIPTION
 
@@ -97,15 +102,9 @@ By default, Perldoc::Server will show documentation for the Perl installation
 used to run the server.
 
 However, it is also possible to serve documentation for a different Perl
-installation using a configuration file F<perldoc_server.conf> as follows
-(example shown for Perl 5.8.9):
+installation using the C<--perl> command-line option, e.g.
 
- perl /Users/jj/perl/perl-5.8.9/bin/perl
- perl_version 5.8.9
- search_path /Users/jj/perl/perl-5.8.9/lib/5.8.9/darwin-2level
- search_path /Users/jj/perl/perl-5.8.9/lib/5.8.9
- search_path /Users/jj/perl/perl-5.8.9/lib/site_perl/5.8.9/darwin-2level
- search_path /Users/jj/perl/perl-5.8.9/lib/site_perl/5.8.9
+ perldoc-server --perl /usr/bin/perl
 
 =head1 SEE ALSO
 
@@ -119,7 +118,10 @@ Penny's Arcade Open Source - L<http://www.pennysarcade.co.uk/opensource>
 
 Jon Allen (JJ) <jj@jonallen.info>
 
-=head1 LICENSE
+Perldoc::Server was developed at the 2009 QA Hackathon L<http://qa-hackathon.org>
+supported by Birmingham Perl Mongers L<http://birmingham.pm.org>
+
+=head1 COPYRIGHT and LICENSE
 
 Copyright (C) 2009 Penny's Arcade Limited - L<http://www.pennysarcade.co.uk>
 

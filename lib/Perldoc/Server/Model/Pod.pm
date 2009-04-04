@@ -31,7 +31,7 @@ sub pod {
 sub find {
   my ($self,$pod) = @_;
   
-  my @search_path = @{$self->{c}->config->{search_path}};
+  my @search_path = grep {/\w/} @{$self->{c}->config->{search_path}};
   return Pod::Simple::Search->new->inc(0)->find($pod, @search_path,map{"$_/pods"} @search_path);
 }
 
