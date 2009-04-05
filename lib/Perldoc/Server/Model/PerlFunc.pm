@@ -87,7 +87,10 @@ sub function_pod {
     
   # This probably needs refactoring to use Pod::POM
   open PERLFUNC,'<',\$perlfunc;
-  do {} until (<PERLFUNC> =~ /^=head2 Alphabetical Listing of Perl Functions/);
+  while (<PERLFUNC>) {
+    last if /^=head2 Alphabetical Listing of Perl Functions/;
+  }
+  #do {} until (<PERLFUNC> =~ /^=head2 Alphabetical Listing of Perl Functions/);
   my (@headers,$body,$inlist);
   my $state = 'header_search';
   SEARCH: while (<PERLFUNC>) {

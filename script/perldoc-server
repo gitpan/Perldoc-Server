@@ -1,4 +1,4 @@
-#!/Users/jj/perl/perl-5.10.0/bin/perl -w
+#!/Users/jj/perl/perl-5.10.0/bin/perl
 
 BEGIN {
     $ENV{CATALYST_ENGINE} ||= 'HTTP';
@@ -28,6 +28,7 @@ my %options;
 GetOptions(\%options,
   'perl=s',
   'port=i',
+  'public',
   'help|h|?' => sub{pod2usage(1)},
 );
 
@@ -61,7 +62,7 @@ $ENV{PERLDOC_SERVER_CONFIG} = $config_filename;
 my $debug             = 0;
 my $fork              = 0;
 my $help              = 0;
-my $host              = undef;
+my $host              = $options{public} ? undef : 'localhost';
 my $keepalive         = 0;
 my $restart           = $ENV{PERLDOC_SERVER_RELOAD} || $ENV{CATALYST_RELOAD} || 0;
 my $restart_delay     = 1;
@@ -88,7 +89,7 @@ require Perldoc::Server;
 
 my $port = $options{port} || 7375;
 
-Perldoc::Server->run( $port, 'localhost', {
+Perldoc::Server->run( $port, $host, {
     debug             => 0,
     argv              => \@ARGV,
     'fork'            => $fork,
@@ -111,7 +112,7 @@ sub perl_config {
   my $perl_inc     = `$perl -e '$inc_cmd'`;
   
   $perl_inc =~ s/^/search_path /mg;
-  warn "Using perl INC $perl_inc";
+  #warn "Using perl INC $perl_inc";
   return <<EOT;
 perl $perl
 perl_version $perl_version
@@ -133,6 +134,7 @@ perldoc-server - Local Perl documentation server
  Options:
  --perl /path/to/perl   Show documentation for this Perl installation
  --port 1234            Set server port number (defaults to 7375)
+ --public               Run as a public server (defaults to private)
  --help                 Display help
    
 =head1 DESCRIPTION
@@ -163,17 +165,35 @@ Perldoc::Server offer the following features:
 
 =head1 CONFIGURATION
 
+=over
+
+=item --perl
+
 By default, Perldoc::Server will show documentation for the Perl installation
 used to run the server.
 
-However, it is also possible to serve documentation for a different Perl
-installation using the C<--perl> command-line option, e.g.
+However, using the C<--perl> command-line option, it is also possible to
+serve documentation for a different Perl installation, e.g.
 
  perldoc-server --perl /usr/bin/perl
 
+Note that while Perldoc::Server requires Perl 5.10.0 or newer, the C<--perl>
+option can be used to display documentation for older Perls.
+
+=item --port
+
+Sets the server's port number - defaults to 7375 ("PERL" on a phone keypad).
+
+=item --public
+
+Runs as a public server. If this option is not set, the server will default
+to private mode, i.e. only accepting connections from localhost.
+
+=back
+
 =head1 AUTHORS
 
-Jon Allen <jj@jonallen.info>
+Jon Allen (JJ) <jj@jonallen.info>
 
 Perldoc::Server was developed at the 2009 QA Hackathon L<http://qa-hackathon.org>
 supported by Birmingham Perl Mongers L<http://birmingham.pm.org>

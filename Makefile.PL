@@ -23,6 +23,7 @@ requires 'File::ShareDir';
 requires 'File::Slurp';
 requires 'File::Monitor';
 requires 'HTML::Entities';
+requires 'Capture::Tiny';
 
 catalyst;
 

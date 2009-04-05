@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use parent 'Catalyst::Controller';
 
+use Capture::Tiny qw/capture/;
 use HTML::Entities;
 use OpenThought;
 use Perl::Tidy;
@@ -31,28 +32,24 @@ sub index :Path :Args(0) {
   my $id   = $c->req->param('id');
   my $code = $c->req->param($id);
   
-#  my $output = <<'EOT';
-#Hello World $'
-#test
-#EOT
-
   $code = decode_entities($code);
 
   my ($result,$error);
-  perltidy(
-    source      => \$code,
-    destination => \$result,
-    argv        => ['-html','-pre'],
-    errorfile   => \$error,
-  ); 
+  capture {
+    perltidy(
+      source      => \$code,
+      destination => \$result,
+      argv        => ['-html','-pre'],
+      errorfile   => \$error,
+    );
+  };
   
+  $result =~ s!\$!&#36;!g;
   $result =~ s!\n*</?pre.*?>\n*!!g;
   $result =~ s!<span class="k">(.*?)</span>!($c->model('PerlFunc')->exists($1))?q(<a class="l_k" href=").qq(/functions/$1">$1</a>):$1!sge;
   $result =~ s!<span class="w">(.*?)</span>!($c->model('Pod')->find($1))?'<a class="l_w" href="/view/'.linkpath($1).qq(">$1</a>):$1!sge;
 
   my $output = '<ol>';
-  #open my $fh,'<',\$result;
-  #while (<$fh>) {$output .= "<li>$_</li>"}
   my @lines = split(/\r\n|\n/,$result);
   foreach (@lines) {$output .= "<li>$_</li>"}
   $output .= '</ol>';

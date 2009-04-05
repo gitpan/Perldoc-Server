@@ -22,7 +22,7 @@ use Catalyst qw/
                 Session::State::Cookie
                 Session::Store::File
                 Static::Simple/;
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 # Configure the application.
 #
@@ -59,7 +59,7 @@ __PACKAGE__->setup();
 
 =head1 NAME
 
-Perldoc::Server - local Perl documentation server
+Perldoc::Server - Local Perl documentation server
 
 =head1 SYNOPSIS
 
@@ -68,6 +68,7 @@ Perldoc::Server - local Perl documentation server
  Options:
  --perl /path/to/perl   Show documentation for this Perl installation
  --port 1234            Set server port number
+ --public               Run as a public server (defaults to private)
  --help                 Display help
 
 =head1 DESCRIPTION
@@ -98,13 +99,31 @@ Perldoc::Server offer the following features:
 
 =head1 CONFIGURATION
 
+=over
+
+=item --perl
+
 By default, Perldoc::Server will show documentation for the Perl installation
 used to run the server.
 
-However, it is also possible to serve documentation for a different Perl
-installation using the C<--perl> command-line option, e.g.
+However, using the C<--perl> command-line option, it is also possible to
+serve documentation for a different Perl installation, e.g.
 
  perldoc-server --perl /usr/bin/perl
+
+Note that while Perldoc::Server requires Perl 5.10.0 or newer, the C<--perl>
+option can be used to display documentation for older Perls.
+
+=item --port
+
+Sets the server's port number - defaults to 7375 ("PERL" on a phone keypad).
+
+=item --public
+
+Runs as a public server. If this option is not set, the server will default
+to private mode, i.e. only accepting connections from localhost.
+
+=back
 
 =head1 SEE ALSO
 
