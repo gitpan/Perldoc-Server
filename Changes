@@ -1,5 +1,14 @@
 This file documents the revision history for Perl extension Perldoc::Server.
 
+0.07  16 September 2009 12:44
+
+        - Applied bugfixes from Varyanick I. Alex for RT #49486, #49488,
+          #49491, and #49492
+
+
+0.06  Unreleased test version
+          
+
 0.05  2009-04-05 13:33:00
 
         - Added '--public' option to 'perldoc-server' script to run the

@@ -32,7 +32,7 @@ sub view :Path :Args(1) {
   my ($self, $c, $function) = @_;
 
   # Count the page views in the user's session
-  my $uri = "/function/$function";
+  my $uri = "/functions/$function";
   $c->session->{counter}{$uri}{count}++;
   $c->session->{counter}{$uri}{name} = $function;
   

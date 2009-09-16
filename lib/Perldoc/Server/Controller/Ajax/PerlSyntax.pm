@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use parent 'Catalyst::Controller';
 
-use Capture::Tiny qw/capture/;
+use File::Spec;
 use HTML::Entities;
 use OpenThought;
 use Perl::Tidy;
@@ -35,14 +35,13 @@ sub index :Path :Args(0) {
   $code = decode_entities($code);
 
   my ($result,$error);
-  capture {
-    perltidy(
-      source      => \$code,
-      destination => \$result,
-      argv        => ['-html','-pre'],
-      errorfile   => \$error,
-    );
-  };
+  perltidy(
+    source      => \$code,
+    destination => \$result,
+    argv        => ['-html','-pre'],
+    errorfile   => \$error,
+    stderr      => File::Spec->devnull(),
+  );
   
   $result =~ s!\$!&#36;!g;
   $result =~ s!\n*</?pre.*?>\n*!!g;

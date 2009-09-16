@@ -6,6 +6,8 @@ use 5.010;
 
 use Catalyst::Runtime '5.70';
 use Sys::Hostname;
+use Config::General;
+use NEXT;
 
 # Set flags and add plugins for the application
 #
@@ -22,7 +24,7 @@ use Catalyst qw/
                 Session::State::Cookie
                 Session::Store::File
                 Static::Simple/;
-our $VERSION = '0.05';
+our $VERSION = '0.07';
 
 # Configure the application.
 #
@@ -38,9 +40,9 @@ my $host = (split('\.',hostname))[0];
 __PACKAGE__->config( name             => 'Perldoc::Server',
                      version          => $VERSION,
                      host             => $host, 
-                     perl             => $^X,
-                     perl_version     => sprintf("%vd",$^V),
-                     search_path      => \@INC,
+                     perl             => $ENV{PERLDOC_SERVER_PERL} || $^X,
+                     perl_version     => $ENV{PERLDOC_SERVER_PERL_VERSION} || sprintf("%vd",$^V),
+                     search_path      => $ENV{PERLDOC_SERVER_SEARCH_PATH} ? [split /\r\n|\n/,$ENV{PERLDOC_SERVER_SEARCH_PATH}] : \@INC,
                      'View::TT'       => { INCLUDE_PATH => __PACKAGE__->path_to('root','templates')},
                      'View::Pod2HTML' => { INCLUDE_PATH => __PACKAGE__->path_to('root','templates')},
                     );
@@ -139,6 +141,14 @@ Jon Allen (JJ) <jj@jonallen.info>
 
 Perldoc::Server was developed at the 2009 QA Hackathon L<http://qa-hackathon.org>
 supported by Birmingham Perl Mongers L<http://birmingham.pm.org>
+
+=head1 CONTRIBUTORS
+
+Thanks to Andreas Koenig and Barbie for help in rendering Unicode characters
+in Pod.
+
+Thanks to Varyanick I. Alex for bugfix patches for RT tickets #49486, #49488,
+#49491, and #49492.
 
 =head1 COPYRIGHT and LICENSE
 

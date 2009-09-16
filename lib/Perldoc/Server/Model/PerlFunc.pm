@@ -5,6 +5,10 @@ use warnings;
 use 5.010;
 use parent 'Catalyst::Model';
 
+# requires required for PAR
+require PerlIO;
+require PerlIO::scalar;
+
 use Pod::Functions;
 
 foreach my $function (keys %Flavor) {
@@ -90,7 +94,6 @@ sub function_pod {
   while (<PERLFUNC>) {
     last if /^=head2 Alphabetical Listing of Perl Functions/;
   }
-  #do {} until (<PERLFUNC> =~ /^=head2 Alphabetical Listing of Perl Functions/);
   my (@headers,$body,$inlist);
   my $state = 'header_search';
   SEARCH: while (<PERLFUNC>) {

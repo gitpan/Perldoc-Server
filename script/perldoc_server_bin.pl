@@ -1,7 +1,8 @@
-#!/usr/bin/perl
+#!/Users/jj/perl/perl-5.10.0/bin/perl
 
 BEGIN {
     $ENV{CATALYST_ENGINE} ||= 'HTTP';
+    $ENV{CATALYST_SCRIPT_GEN} = 32;
     require Catalyst::Engine::HTTP;
 }
 
@@ -10,16 +11,17 @@ use warnings;
 use 5.010;
 use Getopt::Long;
 use Pod::Usage;
-use File::ShareDir qw/dist_dir/;
+#use File::ShareDir qw/dist_dir/;
 use File::Spec::Functions qw/tmpdir/;
 use File::Temp qw/tempfile/;
+use Data::Dumper;
 
 
 #--Locate distribution directory for static files / templates--------------
 
-$ENV{PERLDOC_SERVER_HOME} = dist_dir('Perldoc-Server')
-  or die 'Cannot locate distribution directory for Perldoc-Server';
-
+#$ENV{PERLDOC_SERVER_HOME} = dist_dir('Perldoc-Server')
+#  or die 'Cannot locate distribution directory for Perldoc-Server';
+#say $ENV{PERLDOC_SERVER_HOME};
 
 #--Process command-line options--------------------------------------------
 
@@ -28,37 +30,42 @@ GetOptions(\%options,
   'perl=s',
   'port=i',
   'public',
+  'debug',
   'help|h|?' => sub{pod2usage(1)},
 );
 
+unless ($options{perl}) {
+  say "Option '--perl' is required";
+  pod2usage(1);
+}
   
 #--Build configuration file------------------------------------------------
 
-my ($config_fh,$config_filename) = tempfile('Perldoc-Server-XXXXX',SUFFIX=>'.conf',DIR=>tmpdir())
-  or die 'Cannot create temporary configuration file';
+#my ($config_fh,$config_filename) = tempfile('Perldoc-Server-XXXXX',SUFFIX=>'.conf',DIR=>tmpdir())
+#  or die 'Cannot create temporary configuration file';
 
-print $config_fh <<EOT;
-<Component View::TT>
-  INCLUDE_PATH $ENV{PERLDOC_SERVER_HOME}/templates
-</Component>
-<Component View::Pod2HTML>
-  INCLUDE_PATH $ENV{PERLDOC_SERVER_HOME}/templates
-</Component>
-
-root $ENV{PERLDOC_SERVER_HOME}
-EOT
+#print $config_fh <<EOT;
+#<Component View::TT>
+#  INCLUDE_PATH $ENV{PERLDOC_SERVER_HOME}/templates
+#</Component>
+#<Component View::Pod2HTML>
+#  INCLUDE_PATH $ENV{PERLDOC_SERVER_HOME}/templates
+#</Component>
+#
+#root $ENV{PERLDOC_SERVER_HOME}
+#EOT
 
 if ($options{perl}) {
-  print $config_fh perl_config($options{perl});   
+  perl_config($options{perl});   
 }
 
-close $config_fh;
-$ENV{PERLDOC_SERVER_CONFIG} = $config_filename;
+#close $config_fh;
+#$ENV{PERLDOC_SERVER_CONFIG} = $config_filename;
 
 
 #--Start the server--------------------------------------------------------
   
-my $debug             = 0;
+my $debug             = $options{debug} ? 1 : 0;
 my $fork              = 0;
 my $help              = 0;
 my $host              = $options{public} ? undef : 'localhost';
@@ -81,6 +88,10 @@ if ( $restart && $ENV{CATALYST_ENGINE} eq 'HTTP' ) {
 if ( $debug ) {
     $ENV{CATALYST_DEBUG} = 1;
 }
+
+$ENV{PERLDOC_SERVER_HOME}   = "$ENV{PAR_TEMP}/inc/lib/Perldoc/Server";
+$ENV{PERLDOC_SERVER_CONFIG} = "$ENV{PAR_TEMP}/inc/lib/Perldoc/Server/perldoc_server.conf";
+unshift @INC,"$ENV{PAR_TEMP}/inc/lib";
 
 # This is require instead of use so that the above environment
 # variables can be set at runtime.
@@ -110,13 +121,19 @@ sub perl_config {
   my $inc_cmd      = 'print "$_\n" foreach @INC';
   my $perl_inc     = `$perl -e '$inc_cmd'`;
   
-  $perl_inc =~ s/^/search_path /mg;
+  $ENV{PERLDOC_SERVER_PERL}         = $perl;
+  $ENV{PERLDOC_SERVER_PERL_VERSION} = $perl_version;
+  $ENV{PERLDOC_SERVER_SEARCH_PATH}  = $perl_inc;
+  
+  #$perl_inc =~ s/^/search_path /mg;
+  
+  
   #warn "Using perl INC $perl_inc";
-  return <<EOT;
-perl $perl
-perl_version $perl_version
-$perl_inc
-EOT
+#  return <<EOT;
+#perl $perl
+#perl_version $perl_version
+#$perl_inc
+#EOT
 }
 
 

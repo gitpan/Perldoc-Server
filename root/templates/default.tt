@@ -77,7 +77,7 @@
         <p>
           <a href="#" onClick="OpenThought.CallUrl('POST','[% c.uri_for('/ajax/clear_most_viewed') %]')">Clear list</a>
         </p>
-        [% IF most_viewed.size > 0 %]
+        [% IF most_viewed.size && most_viewed.size > 0 %]
           <div class="labels" id="most_viewed">
           [% FOREACH page IN most_viewed %]
             [% IF page.link %]

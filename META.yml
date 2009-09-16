@@ -3,9 +3,11 @@ abstract: 'Local Perl documentation server'
 author:
   - 'Jon Allen (JJ) <jj@jonallen.info>'
 build_requires:
-  ExtUtils::MakeMaker: 6.11
+  ExtUtils::MakeMaker: 6.42
+configure_requires:
+  ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.76'
+generated_by: 'Module::Install version 0.91'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -13,11 +15,10 @@ meta-spec:
 name: Perldoc-Server
 no_index:
   directory:
-    - root
     - inc
+    - root
     - t
 requires:
-  Capture::Tiny: 0
   Catalyst::Action::RenderView: 0
   Catalyst::Plugin::ConfigLoader: 0
   Catalyst::Plugin::Session: 0
@@ -31,11 +32,12 @@ requires:
   File::ShareDir: 0
   File::Slurp: 0
   HTML::Entities: 0
+  MRO::Compat: 0
   OpenThought: 0
   Perl::Tidy: 0
   Pod::POM: 0.23
   parent: 0
-  perl: 5.01
+  perl: 5.10.0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.05
+version: 0.07

@@ -1,7 +1,8 @@
 package Perldoc::Server::View::TT;
 
 use strict;
-use base 'Catalyst::View::TT';
+use parent 'Catalyst::View::TT';
+use MRO::Compat;
 
 __PACKAGE__->config(TEMPLATE_EXTENSION => '.tt');
 
@@ -23,7 +24,7 @@ sub process {
     }
   }
 
-  return $self->NEXT::process($c);
+  return $self->maybe::next::method($c);
 }
 
 
