@@ -6,7 +6,7 @@ use 5.010;
 use parent 'Catalyst::Model';
 
 use Memoize;
-memoize('pages');
+memoize('pages', NORMALIZER => sub { $_[1] });
 
 our @section_data = (
   { 

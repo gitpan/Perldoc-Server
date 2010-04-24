@@ -9,7 +9,7 @@ use File::Slurp qw/slurp/;
 use Memoize;
 use Pod::Simple::Search;
 
-memoize('section');
+memoize('section', NORMALIZER => sub { $_[1] });
 
 sub ACCEPT_CONTEXT { 
   my ( $self, $c, @extra_arguments ) = @_; 
@@ -68,6 +68,7 @@ sub section {
       return $section;
     }
   }
+  return;
 }
 
 =head1 NAME

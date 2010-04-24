@@ -34,7 +34,7 @@ GetOptions(\%options,
   
 #--Build configuration file------------------------------------------------
 
-my ($config_fh,$config_filename) = tempfile('Perldoc-Server-XXXXX',SUFFIX=>'.conf',DIR=>tmpdir())
+my ($config_fh,$config_filename) = tempfile('Perldoc-Server-XXXXX', SUFFIX=>'.conf',DIR=>tmpdir(), UNLINK=>1)
   or die 'Cannot create temporary configuration file';
 
 print $config_fh <<EOT;

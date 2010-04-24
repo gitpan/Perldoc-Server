@@ -1,5 +1,10 @@
 This file documents the revision history for Perl extension Perldoc::Server.
 
+0.08  24 April 2010
+
+        - Applied patch from Ricardo Signes for RT #52940
+        
+
 0.07  16 September 2009 12:44
 
         - Applied bugfixes from Varyanick I. Alex for RT #49486, #49488,
