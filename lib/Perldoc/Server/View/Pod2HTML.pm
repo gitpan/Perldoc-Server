@@ -11,6 +11,7 @@ sub process {
   my ($self,$c) = @_;
   
   $c->stash->{pod2html}        = Perldoc::Server::Convert::html::convert($c, $c->stash->{title}, $c->stash->{pod});
+  $c->stash->{page_index}      = Perldoc::Server::Convert::html::index($c, $c->stash->{title}, $c->stash->{pod});
   $c->stash->{page_template} //= 'pod2html.tt';
   
   $c->forward('View::TT');

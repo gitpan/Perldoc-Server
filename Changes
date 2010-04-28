@@ -1,5 +1,10 @@
 This file documents the revision history for Perl extension Perldoc::Server.
 
+0.09  28 April 2030
+
+        - Updated look & feel to match http://perldoc.perl.org
+
+
 0.08  24 April 2010
 
         - Applied patch from Ricardo Signes for RT #52940

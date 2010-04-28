@@ -24,7 +24,7 @@ use Catalyst qw/
                 Session::State::Cookie
                 Session::Store::File
                 Static::Simple/;
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 # Configure the application.
 #

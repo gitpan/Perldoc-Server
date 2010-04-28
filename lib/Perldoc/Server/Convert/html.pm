@@ -34,6 +34,21 @@ sub convert {
 
 #--------------------------------------------------------------------------
 
+
+sub index {
+  local $c             = shift;
+  local $document_name = shift;
+  my $pod    = shift;
+  my $parser = Pod::POM->new();
+  my $pom    = $parser->parse_text($pod);
+  my $index  = build_index($pom);
+  return $index;
+}
+
+
+#--------------------------------------------------------------------------
+
+
 sub build_index {
   my $pod   = shift;
   my $index = '';

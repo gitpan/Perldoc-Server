@@ -40,6 +40,7 @@ sub view :Path :Args(1) {
   $c->stash->{pod}           = $c->model('PerlFunc')->pod($function);
   $c->stash->{breadcrumbs}   = [ {url=>$c->uri_for('/index/functions'), name=>'Functions'} ];
   $c->stash->{page_template} = 'function.tt';
+  $c->stash->{contentpage}   = 1;
   
   $c->forward('View::Pod2HTML');
 }

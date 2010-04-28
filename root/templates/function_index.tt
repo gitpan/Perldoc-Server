@@ -1,7 +1,7 @@
 <div class="title_container">
-  <div class="page_title">
+  <h1>
     [% pagename %]
-  </div>
+  </h1>
 </div>
 <div class="mod_az_list">
   <a href="[% c.uri_for('/index/functions') %]">Perl functions A-Z</a> |

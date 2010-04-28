@@ -1,6 +1,5 @@
 <div class="title_container">
-  <div class="page_title">Source code of [% title %]</div>
-  <div class="pdf_link"><a href="[% c.uri_for('/view',path.join('/')) %]">View documentation</a></div>
+  <h1>Source code of [% title %]</h1>
 </div>
 
 <h3>[% filename %]</h3>

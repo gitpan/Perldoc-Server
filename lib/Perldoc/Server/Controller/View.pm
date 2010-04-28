@@ -26,9 +26,10 @@ sub index :Path {
     my ( $self, $c, @pod ) = @_;
     
     my $page = join '::',@pod;
-    $c->stash->{title} = $page;
-    $c->stash->{path}  = \@pod;
-    $c->stash->{pod}   = $c->model('Pod')->pod($page);
+    $c->stash->{title}       = $page;
+    $c->stash->{path}        = \@pod;
+    $c->stash->{pod}         = $c->model('Pod')->pod($page);
+    $c->stash->{contentpage} = 1;
     
     # Count the page views in the user's session
     my $uri = join '/','/view',@pod;
@@ -42,13 +43,13 @@ sub index :Path {
             $c->stash->{breadcrumbs} = [
                 { url => $c->uri_for('/index',$section), name => $c->model('Section')->name($section) },                
             ];
-            $c->stash->{no_source_view} = 1;
         }
         when (/^([A-Z])/) {
             $c->stash->{breadcrumbs} = [
                 { url => $c->uri_for('/index/modules'), name => 'Modules' },
                 { url => $c->uri_for('/index/modules',$1), name => $1 },
             ];
+            $c->stash->{source_available} = 1;
         }
         default {
             $c->stash->{breadcrumbs} = [
