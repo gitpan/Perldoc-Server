@@ -24,7 +24,7 @@ use Catalyst qw/
                 Session::State::Cookie
                 Session::Store::File
                 Static::Simple/;
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 # Configure the application.
 #
@@ -150,9 +150,11 @@ in Pod.
 Thanks to Varyanick I. Alex for bugfix patches for RT tickets #49486, #49488,
 #49491, and #49492.
 
+Thanks to Eduard Wulff, Tomas Doran, and Colin Newell for parches, help, and support.
+
 =head1 COPYRIGHT and LICENSE
 
-Copyright (C) 2009 Penny's Arcade Limited - L<http://www.pennysarcade.co.uk>
+Copyright (C) 2011 Penny's Arcade Limited - L<http://www.pennysarcade.co.uk>
 
 This library is free software, you can redistribute it and/or modify
 it under the same terms as Perl itself.

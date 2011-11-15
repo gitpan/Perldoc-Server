@@ -1,6 +1,12 @@
 This file documents the revision history for Perl extension Perldoc::Server.
 
-0.09  28 April 2030
+0.10  15 November 2011
+
+        - Fixes for compatibility with latest Catalyst version
+          Thanks to Eduard Wulff, Tomas Doran, and Colin Newell
+
+
+0.09  28 April 2010
 
         - Updated look & feel to match http://perldoc.perl.org
 

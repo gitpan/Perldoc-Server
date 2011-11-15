@@ -9,9 +9,9 @@ require Module::Install::Base;
 
 use File::Find;
 use FindBin;
-use File::Copy::Recursive 'rcopy';
+use File::Copy::Recursive;
 use File::Spec ();
-use Getopt::Long qw(GetOptionsFromString :config no_ignore_case);
+use Getopt::Long ();
 use Data::Dumper;
 
 my $SAFETY = 0;
@@ -30,6 +30,11 @@ our %PAROPTS   = ();
 
 sub catalyst {
     my $self = shift;
+
+    if($Module::Install::AUTHOR) {
+        $self->include("File::Copy::Recursive");
+    }
+
     print <<EOF;
 *** Module::Install::Catalyst
 EOF
@@ -40,7 +45,7 @@ EOF
 EOF
 }
 
-#line 77
+#line 82
 
 sub catalyst_files {
     my $self = shift;
@@ -60,25 +65,25 @@ sub catalyst_files {
     my @path = split '-', $self->name;
     for my $orig (@files) {
         my $path = File::Spec->catdir( 'blib', 'lib', @path, $orig );
-        rcopy( $orig, $path );
+        File::Copy::Recursive::rcopy( $orig, $path );
     }
 }
 
-#line 105
+#line 110
 
 sub catalyst_ignore_all {
     my ( $self, $ignore ) = @_;
     @IGNORE = @$ignore;
 }
 
-#line 116
+#line 121
 
 sub catalyst_ignore {
     my ( $self, @ignore ) = @_;
     push @IGNORE, @ignore;
 }
 
-#line 125
+#line 130
 
 # Workaround for a namespace conflict
 sub catalyst_par {
@@ -104,57 +109,62 @@ Please run "make catalyst_par" to create the PAR package!
 EOF
 }
 
-#line 153
+#line 158
 
 sub catalyst_par_core {
     my ( $self, $core ) = @_;
     $core ? ( $PAROPTS{'B'} = $core ) : $PAROPTS{'B'}++;
 }
 
-#line 162
+#line 167
 
 sub catalyst_par_classes {
     my ( $self, @classes ) = @_;
     push @CLASSES, @classes;
 }
 
-#line 171
+#line 176
 
 sub catalyst_par_engine {
     my ( $self, $engine ) = @_;
     $ENGINE = $engine;
 }
 
-#line 180
+#line 185
 
 sub catalyst_par_multiarch {
     my ( $self, $multiarch ) = @_;
     $multiarch ? ( $PAROPTS{'m'} = $multiarch ) : $PAROPTS{'m'}++;
 }
 
-#line 213
+#line 218
 
 sub catalyst_par_options {
     my ( $self, $optstring ) = @_;
-    my %o = ();
     eval "use PAR::Packer ()";
     if ($@) {
         warn "WARNING: catalyst_par_options ignored - you need PAR::Packer\n"
     }
     else {
-        GetOptionsFromString($optstring, \%o, PAR::Packer->options);
+        my $p = Getopt::Long::Parser->new(config => ['no_ignore_case']);
+        my %o;
+        require Text::ParseWords;
+        {
+            local @ARGV = Text::ParseWords::shellwords($optstring);
+            $p->getoptions(\%o, PAR::Packer->options);
+        }
         %PAROPTS = ( %PAROPTS, %o);
     }
 }
 
-#line 230
+#line 240
 
 sub catalyst_par_script {
     my ( $self, $script ) = @_;
     $SCRIPT = $script;
 }
 
-#line 239
+#line 249
 
 sub catalyst_par_usage {
     my ( $self, $usage ) = @_;
@@ -307,6 +317,6 @@ EOF
     return 1;
 }
 
-#line 401
+#line 411
 
 1;

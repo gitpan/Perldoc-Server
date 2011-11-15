@@ -524,6 +524,10 @@ div#content_body ul li {
 	padding-bottom: 3px;
 }
 
+div#content_body dt {
+	font-weight: bold;	
+}
+
 div#content_body a:link, div#content_body a:active {
   color: #36415c;
 }
